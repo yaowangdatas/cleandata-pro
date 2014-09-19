@@ -47,15 +47,19 @@ test <- cbind(test_subject,testy,testx)
 ##1. Merges the training and the test sets to create one data set.
 total <- rbind(train,test)
 
+##Step 7:
 ##2. Extracts only the measurements on the mean and standard deviation for each measurement. 
 extract <- grepl("mean|std",features[,2])
 extract_column <- c(TRUE, TRUE, extract)
 extractdata <- total[,extract_column]
 
+##Step 8:
 ##5. From the data set "extractdata", creates a second, independent tidy data
 ##  set with the average of each variable for each activity and each subject.
 measure <- features[extract, 2]
 meltdata <- melt(extractdata, id=c("subject","activity"), measure.vars=measure)
 tidydata <- dcast(meltdata, subject + activity ~ variable, mean)
+
+##Step 9:
 write.table(tidydata, file="./cleandata/project/tidydata.txt", 
             sep="\t",row.names=F)
